@@ -1,0 +1,5 @@
+python-osc-lib (0.3.0-1) experimental; urgency=medium
+
+  * Initial release. (Closes: #830874)
+
+ -- Thomas Goirand <zigo@debian.org>  Tue, 12 Jul 2016 15:05:46 +0200
