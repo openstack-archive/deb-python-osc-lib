@@ -57,14 +57,6 @@ class ClientCache(object):
 class ClientManager(object):
     """Manages access to API clients, including authentication."""
 
-    def __getattr__(self, name):
-        # this is for the auth-related parameters.
-        if name in ['_' + o.replace('-', '_')
-                    for o in auth.OPTIONS_LIST]:
-            return self._auth_params[name[1:]]
-
-        raise AttributeError(name)
-
     def __init__(
         self,
         cli_options=None,
@@ -138,51 +130,6 @@ class ClientManager(object):
         # prior to dereferrencing auth_ref.
         self._auth_setup_completed = False
 
-    def _set_default_scope_options(self):
-        # TODO(mordred): This is a usability improvement that's broadly useful
-        # We should port it back up into os-client-config.
-        default_domain = self._cli_options.default_domain
-
-        # NOTE(hieulq): If USER_DOMAIN_NAME, USER_DOMAIN_ID, PROJECT_DOMAIN_ID
-        # or PROJECT_DOMAIN_NAME is present and API_VERSION is 2.0, then
-        # ignore all domain related configs.
-        if (self._api_version.get('identity') == '2.0' and
-                self.auth_plugin_name.endswith('password')):
-            domain_props = [
-                'project_domain_name',
-                'project_domain_id',
-                'user_domain_name',
-                'user_domain_id',
-            ]
-            for prop in domain_props:
-                if self._auth_params.pop(prop, None) is not None:
-                    LOG.warning("Ignoring domain related configs " +
-                                prop + " because identity API version is 2.0")
-            return
-
-        # NOTE(aloga): The scope parameters below only apply to v3 and v3
-        # related auth plugins, so we stop the parameter checking if v2 is
-        # being used.
-        if (self._api_version.get('identity') != '3' or
-                self.auth_plugin_name.startswith('v2')):
-            return
-
-        # NOTE(stevemar): If PROJECT_DOMAIN_ID or PROJECT_DOMAIN_NAME is
-        # present, then do not change the behaviour. Otherwise, set the
-        # PROJECT_DOMAIN_ID to 'OS_DEFAULT_DOMAIN' for better usability.
-        if ('project_domain_id' in self._auth_params and
-                not self._auth_params.get('project_domain_id') and
-                not self._auth_params.get('project_domain_name')):
-            self._auth_params['project_domain_id'] = default_domain
-
-        # NOTE(stevemar): If USER_DOMAIN_ID or USER_DOMAIN_NAME is present,
-        # then do not change the behaviour. Otherwise, set the
-        # USER_DOMAIN_ID to 'OS_DEFAULT_DOMAIN' for better usability.
-        if ('user_domain_id' in self._auth_params and
-                not self._auth_params.get('user_domain_id') and
-                not self._auth_params.get('user_domain_name')):
-            self._auth_params['user_domain_id'] = default_domain
-
     def setup_auth(self):
         """Set up authentication
 
@@ -209,12 +156,6 @@ class ClientManager(object):
         if (self.auth_plugin_name.endswith('password') and
                 not self._cli_options.auth.get('password')):
             self._cli_options.auth['password'] = self._pw_callback()
-
-        # For compatibility until all clients can be updated
-        if 'project_name' in self._cli_options.auth:
-            self._project_name = self._cli_options.auth['project_name']
-        elif 'tenant_name' in self._cli_options.auth:
-            self._project_name = self._cli_options.auth['tenant_name']
 
         LOG.info('Using auth plugin: %s', self.auth_plugin_name)
         LOG.debug('Using parameters %s',

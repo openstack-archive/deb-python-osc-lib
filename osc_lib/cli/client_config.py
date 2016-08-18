@@ -65,10 +65,10 @@ class OSC_Config(OpenStackConfig):
         """
 
         if ('auth_type' in config and config['auth_type'].startswith("v2")):
-            if 'project_id' in config:
-                config['tenant_id'] = config['project_id']
-            if 'project_name' in config:
-                config['tenant_name'] = config['project_name']
+            if 'project_id' in config['auth']:
+                config['auth']['tenant_id'] = config['auth']['project_id']
+            if 'project_name' in config['auth']:
+                config['auth']['tenant_name'] = config['auth']['project_name']
         return config
 
     def _auth_v2_ignore_v3(self, config):
@@ -89,7 +89,7 @@ class OSC_Config(OpenStackConfig):
                 'user_domain_name',
             ]
             for prop in domain_props:
-                if config.pop(prop, None) is not None:
+                if config['auth'].pop(prop, None) is not None:
                     LOG.warning("Ignoring domain related config " +
                                 prop + " because identity API version is 2.0")
         return config
@@ -113,18 +113,24 @@ class OSC_Config(OpenStackConfig):
             # NOTE(stevemar): If PROJECT_DOMAIN_ID or PROJECT_DOMAIN_NAME is
             # present, then do not change the behaviour. Otherwise, set the
             # PROJECT_DOMAIN_ID to 'OS_DEFAULT_DOMAIN' for better usability.
-            if ('project_domain_id' in config and
-                    not config.get('project_domain_id') and
-                    not config.get('project_domain_name')):
-                config['project_domain_id'] = default_domain
+            if (
+                    not config['auth'].get('project_domain_id') and
+                    not config['auth'].get('project_domain_name')
+            ):
+                config['auth']['project_domain_id'] = default_domain
 
             # NOTE(stevemar): If USER_DOMAIN_ID or USER_DOMAIN_NAME is present,
             # then do not change the behaviour. Otherwise, set the
             # USER_DOMAIN_ID to 'OS_DEFAULT_DOMAIN' for better usability.
-            if ('user_domain_id' in config and
-                    not config.get('user_domain_id') and
-                    not config.get('user_domain_name')):
-                config['user_domain_id'] = default_domain
+            # NOTE(aloga): this should only be set if there is a username.
+            # TODO(dtroyer): Move this to os-client-config after the plugin has
+            # been loaded so we can check directly if the options are accepted.
+            if (
+                    auth_type in ("password", "v3password", "v3totp") and
+                    not config['auth'].get('user_domain_id') and
+                    not config['auth'].get('user_domain_name')
+            ):
+                config['auth']['user_domain_id'] = default_domain
         return config
 
     def auth_config_hook(self, config):
@@ -140,4 +146,54 @@ class OSC_Config(OpenStackConfig):
         config = self._auth_default_domain(config)
 
         LOG.debug("auth_config_hook(): %s" % config)
+        return config
+
+    def _validate_auth_ksc(self, config, cloud, fixed_argparse=None):
+        """Old compatibility hack for OSC, no longer needed/wanted"""
+        return config
+
+    def _validate_auth(self, config, loader, fixed_argparse=None):
+        """Validate auth plugin arguments"""
+        # May throw a keystoneauth1.exceptions.NoMatchingPlugin
+
+        plugin_options = loader.get_options()
+
+        for p_opt in plugin_options:
+            # if it's in argparse, it was passed on the command line and wins
+            # if it's in config.auth, win, kill it from config dict
+            # if it's in config and not in config.auth, move it
+            # deprecated loses to current
+            # provided beats default, deprecated or not
+            winning_value = self._find_winning_auth_value(
+                p_opt, fixed_argparse)
+            if winning_value:
+                found_in_argparse = True
+            else:
+                found_in_argparse = False
+                winning_value = self._find_winning_auth_value(
+                    p_opt, config['auth'])
+                if not winning_value:
+                    winning_value = self._find_winning_auth_value(
+                        p_opt, config)
+
+            # Clean up after ourselves
+            for opt in [p_opt.name] + [o.name for o in p_opt.deprecated]:
+                opt = opt.replace('-', '_')
+                # don't do this if the value came from argparse, because we
+                # don't (yet) know if the value in not-auth came from argparse
+                # overlay or from someone passing in a dict to kwargs
+                # TODO(mordred) Fix that data path too
+                if not found_in_argparse:
+                    config.pop(opt, None)
+                config['auth'].pop(opt, None)
+
+            if winning_value:
+                # Prefer the plugin configuration dest value if the value's key
+                # is marked as depreciated.
+                if p_opt.dest is None:
+                    config['auth'][p_opt.name.replace('-', '_')] = (
+                        winning_value)
+                else:
+                    config['auth'][p_opt.dest] = winning_value
+
         return config
