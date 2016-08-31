@@ -6,6 +6,7 @@ python-osc-lib (1.1.0-1) UNRELEASED; urgency=medium
 
   [ Corey Bryant ]
   * New upstream release.
+  * d/control: Align (Build-)Depends with upstream.
 
  -- Corey Bryant <corey.bryant@canonical.com>  Wed, 31 Aug 2016 13:42:52 -0400
 
