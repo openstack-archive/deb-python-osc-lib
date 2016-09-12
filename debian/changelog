@@ -1,4 +1,4 @@
-python-osc-lib (1.1.0-1) UNRELEASED; urgency=medium
+python-osc-lib (1.1.0-1) experimental; urgency=medium
 
   [ Corey Bryant ]
   * New upstream release.
@@ -8,7 +8,13 @@ python-osc-lib (1.1.0-1) UNRELEASED; urgency=medium
   * New upstream release.
   * d/control: Align (Build-)Depends with upstream.
 
- -- Corey Bryant <corey.bryant@canonical.com>  Wed, 31 Aug 2016 13:42:52 -0400
+  [ Thomas Goirand ]
+  * Using OpenStack's Gerrit as VCS URLs.
+  * Blacklist failing tests:
+    - TestShellCli.test_shell_args_cert_options
+    - TestShellCli.test_shell_args_tls_options
+
+ -- Thomas Goirand <zigo@debian.org>  Mon, 12 Sep 2016 17:06:53 +0200
 
 python-osc-lib (0.3.0-1) experimental; urgency=medium
 

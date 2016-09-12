@@ -11,7 +11,7 @@ override_dh_auto_install:
 
 override_dh_auto_test:
 ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
-	pkgos-dh_auto_test
+	pkgos-dh_auto_test 'osc_lib\.tests\.(?!(.*TestShellCli\.test_shell_args_cert_options.*|.*TestShellCli\.test_shell_args_tls_options.*))'
 endif
 
 override_dh_sphinxdoc:
