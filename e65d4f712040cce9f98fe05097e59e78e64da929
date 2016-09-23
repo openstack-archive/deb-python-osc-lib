@@ -1,0 +1,12 @@
+Code-Review+2: Steve Martinelli <s.martinelli@gmail.com>
+Code-Review+2: Richard Theis <rtheis@us.ibm.com>
+Code-Review+1: Kyrylo Romanenko <kromanenko@mirantis.com>
+Code-Review+1: venkatamahesh <Venkata.Kotha@infinite.com>
+Code-Review+2: Dean Troyer <dtroyer@gmail.com>
+Workflow+1: Dean Troyer <dtroyer@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 22 Sep 2016 15:13:37 +0000
+Reviewed-on: https://review.openstack.org/368768
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/master
