@@ -50,8 +50,8 @@ Build-Depends-Indep: python-babel (>= 2.3.4),
                      python3-testtools (>= 1.4.0),
                      testrepository,
 Standards-Version: 3.9.8
-Vcs-Browser: https://git.openstack.org/cgit/openstack/deb-python-osc-lib
-Vcs-Git: https://git.openstack.org/git/openstack/deb-python-osc-lib
+Vcs-Browser: https://git.openstack.org/cgit/openstack/deb-python-osc-lib?h=debian%2Fnewton
+Vcs-Git: https://git.openstack.org/git/openstack/deb-python-osc-lib -b debian/newton
 Homepage: http://docs.openstack.org/developer/osc-lib
 
 Package: python-osc-lib
