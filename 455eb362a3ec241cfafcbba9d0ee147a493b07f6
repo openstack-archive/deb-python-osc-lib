@@ -1,0 +1,9 @@
+Code-Review+2: Richard Theis <rtheis@us.ibm.com>
+Code-Review+2: Dean Troyer <dtroyer@gmail.com>
+Workflow+1: Dean Troyer <dtroyer@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 07 Oct 2016 17:00:34 +0000
+Reviewed-on: https://review.openstack.org/383755
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/master
