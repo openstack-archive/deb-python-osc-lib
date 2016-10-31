@@ -1,0 +1,10 @@
+Code-Review+2: Richard Theis <rtheis@us.ibm.com>
+Code-Review+1: Juan Antonio Osorio Robles <jaosorior@redhat.com>
+Code-Review+2: Steve Martinelli <s.martinelli@gmail.com>
+Workflow+1: Steve Martinelli <s.martinelli@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 27 Oct 2016 16:50:38 +0000
+Reviewed-on: https://review.openstack.org/358278
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/master
