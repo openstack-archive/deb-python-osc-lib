@@ -1,0 +1,8 @@
+Code-Review+2: Steve Martinelli <s.martinelli@gmail.com>
+Workflow+1: Steve Martinelli <s.martinelli@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 15 Dec 2016 06:04:41 +0000
+Reviewed-on: https://review.openstack.org/411071
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/master
