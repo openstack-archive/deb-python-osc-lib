@@ -1,0 +1,8 @@
+Code-Review+2: Dean Troyer <dtroyer@gmail.com>
+Workflow+1: Dean Troyer <dtroyer@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 10 Feb 2017 17:56:44 +0000
+Reviewed-on: https://review.openstack.org/427443
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/stable/ocata
