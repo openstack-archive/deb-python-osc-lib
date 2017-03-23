@@ -1,0 +1,10 @@
+Code-Review+1: Reedip <reedip.banerjee@gmail.com>
+Code-Review+2: Dean Troyer <dtroyer@gmail.com>
+Code-Review+1: Mike Perez <thingee@gmail.com>
+Workflow+1: Dean Troyer <dtroyer@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Mon, 06 Mar 2017 18:18:35 +0000
+Reviewed-on: https://review.openstack.org/434768
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/master

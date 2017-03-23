@@ -1,0 +1,10 @@
+Code-Review+2: Huanxuan Ao <huanxuan.ao@easystack.cn>
+Code-Review+1: Mike Perez <thingee@gmail.com>
+Code-Review+2: Dean Troyer <dtroyer@gmail.com>
+Workflow+1: Dean Troyer <dtroyer@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 21 Mar 2017 23:53:51 +0000
+Reviewed-on: https://review.openstack.org/440084
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/master
