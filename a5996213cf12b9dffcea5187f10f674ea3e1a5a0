@@ -1,0 +1,8 @@
+Code-Review+2: Dean Troyer <dtroyer@gmail.com>
+Workflow+1: Dean Troyer <dtroyer@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 27 Jun 2017 17:18:54 +0000
+Reviewed-on: https://review.openstack.org/470523
+Project: openstack/deb-python-osc-lib
+Branch: refs/heads/master
